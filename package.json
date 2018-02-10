@@ -1,0 +1,20 @@
+{
+  "name": "servidor-node-socket-io",
+  "version": "1.0.0",
+  "description": "Servidor utilizando socket io",
+  "main": "index.js",
+  "repository": "https://github.com/vitorkaio/servidor-node-socket-io.git",
+  "author": "Vítor <vitorcaiodepaula@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "express": "^4.16.2",
+    "nodemon": "^1.14.12",
+    "rxjs": "^5.5.6",
+    "socketio": "^1.0.0"
+  },
+  "scripts": {
+    "start": "nodemon --exec babel-node server.js"
+  }
+}
