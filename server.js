@@ -28,7 +28,7 @@ io.on("connection", (client) => {
           client.emit('getReactApp', false);
       },
       error: (err) => {
-        console.log(err);
+        client.emit('getReactApp', err);
       }
     }
     verificaRota(url);

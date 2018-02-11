@@ -22,7 +22,7 @@ class ApiFirebaseAcess {
       fireUser.orderByKey().equalTo(rota).on('value', snap => {
         obs.next(snap.val());
       },(errorObject) => {
-        obs.error(false);
+        obs.error(null);
       });
     });
   }
