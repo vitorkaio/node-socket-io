@@ -16,6 +16,22 @@ app.get('/', (req, res) => {
 io.on("connection", (client) => {
   allClients.push(client);
 
+  // Fica escutando o evento que devolve uma lista de links da pasta.
+  client.on('getLinks', (url) => {
+    let obs = {
+      next: (data) => {
+        if(data !== false)
+          client.emit('getReactLinks', data);
+        else
+          client.emit('getReactLinks', false);
+      },
+      error: (err) => {
+        client.emit('getReactLinks', err);
+      }
+    }
+    ApiFirebaseAcess.getRotaLinks(url).subscribe(obs);
+  });
+
   // Fica escutando o evento getText que devolve o texto corrente da url passada.
   client.on('getText', (url) => {
     let obs = {
