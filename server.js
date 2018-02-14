@@ -18,18 +18,14 @@ io.on("connection", (client) => {
 
   // Fica escutando o evento que devolve uma lista de links da pasta.
   client.on('getLinks', (url) => {
-    let obs = {
-      next: (data) => {
-        if(data !== false)
-          client.emit('getReactLinks', data);
+    ApiFirebaseAcess.getRotaLinks(url).then(res => {
+        if(res !== false)
+          client.emit('getReactLinks', res);
         else
           client.emit('getReactLinks', false);
-      },
-      error: (err) => {
+    }).catch(err => {
         client.emit('getReactLinks', err);
-      }
-    }
-    ApiFirebaseAcess.getRotaLinks(url).subscribe(obs);
+    });
   });
 
   // Fica escutando o evento getText que devolve o texto corrente da url passada.
@@ -48,7 +44,7 @@ io.on("connection", (client) => {
       }
     }
     verificaRota(url);
-    console.log(url);
+    console.log('server,js - 51', url);
 
     rotaAutal = url;
     subs = ApiFirebaseAcess.getRotaTexto(url).subscribe(obs);
@@ -56,13 +52,24 @@ io.on("connection", (client) => {
 
   // Insere um texto em uma rota.
   client.on('postText', (url, msg) => {
-    console.log(url, 'msg: ' + msg);
     ApiFirebaseAcess.postRotaTexto(url, msg).then(data => {
       console.log(data);
       client.emit(data);
     }).catch(err => {
       client.emit(false);
     });
+  });
+
+  // Insere uma senha na rota.
+  client.on('postSenha', (url, senha) => {
+    ApiFirebaseAcess.postRotaSenha(url, senha).then(data => {
+        console.log('postSenha', data);
+        client.emit('postReactSenha', data);
+    }).catch(err => {
+      console.log('postSenha', err);
+      client.emit('postReactSenha', err);
+    });
+  
   });
 
   // ************************* Fecha o servidor *************************
