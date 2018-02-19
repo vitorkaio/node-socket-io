@@ -3,10 +3,12 @@ import ApiFirebaseAcess from './services/apiFirebaseAcess';
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const fs = require('fs');
 
 const allClients = [];
 let rotaAutal = null;
 let subs = null;
+let arqs = null;
 
 app.get('/', (req, res) => {
   res.send('server is running');
@@ -72,6 +74,36 @@ io.on("connection", (client) => {
   
   });
 
+  var files = {}, 
+    struct = { 
+        name: null, 
+        type: null, 
+        size: 0, 
+        data: [], 
+        slice: 0, 
+    };
+
+  // Faz upload de um arquivo.
+  client.on("uploadArquivo", (url, data) => {
+    // console.log(url, data);
+    ApiFirebaseAcess.uploadArquivo(url, JSON.parse(data)).then(res => {
+      client.emit("uploadArquivoReact", res);
+    }).catch(err => {
+      client.emit("uploadArquivoReact", err);
+    });
+
+  });
+
+  // Deleta um arquivo.
+  client.on("deletaArquivo", (url, nomeArquivo) => {
+    console.log("DELETE", nomeArquivo);
+    ApiFirebaseAcess.deletaArquivo(url, nomeArquivo).then(res => {
+      client.emit("deletaArquivoReact", res);
+    }).catch(err => {
+      client.emit("deletaArquivoReact", err);
+    });
+  });
+
   // ************************* Fecha o servidor *************************
   client.on('close', () => {
     console.log('user disconnected', client.id);
@@ -86,7 +118,6 @@ io.on("connection", (client) => {
     allClients.splice(i, 1);
     client.disconnect();
   });
-
 });
 
 http.listen(3001, () => {
@@ -98,6 +129,7 @@ const verificaRota = (newUrl) => {
   if(rotaAutal !== null && newUrl !== rotaAutal) {
     try {
       subs.unsubscribe();
+      arqs.unsubscribe();
     } catch (error) {
       ;
     }

@@ -3,6 +3,6 @@ export const firebaseConfig = {
   authDomain: "dontpad-plus-plus.firebaseapp.com",
   databaseURL: "https://dontpad-plus-plus.firebaseio.com",
   projectId: "dontpad-plus-plus",
-  storageBucket: "dontpad-plus-plus.appspot.com",
+  storageBucket: "gs://dontpad-plus-plus.appspot.com",
   messagingSenderId: "863668339613"
 };
