@@ -34,7 +34,7 @@ io.on("connection", (client) => {
   client.on('getText', (url) => {
     let obs = {
       next: (data) => {
-        console.log(data);
+        // console.log(data);
         // Emite para o cliente qualquer alteração que houver no firebase.
         if(data !== null)
           client.emit('getReactApp', data);
@@ -46,7 +46,7 @@ io.on("connection", (client) => {
       }
     }
     verificaRota(url);
-    console.log('server,js - 51', url);
+    // console.log('server,js - 51', url);
 
     rotaAutal = url;
     subs = ApiFirebaseAcess.getRotaTexto(url).subscribe(obs);
@@ -55,7 +55,7 @@ io.on("connection", (client) => {
   // Insere um texto em uma rota.
   client.on('postText', (url, msg) => {
     ApiFirebaseAcess.postRotaTexto(url, msg).then(data => {
-      console.log(data);
+      // console.log(data);
       client.emit(data);
     }).catch(err => {
       client.emit(false);
@@ -65,10 +65,10 @@ io.on("connection", (client) => {
   // Insere uma senha na rota.
   client.on('postSenha', (url, senha) => {
     ApiFirebaseAcess.postRotaSenha(url, senha).then(data => {
-        console.log('postSenha', data);
+        // console.log('postSenha', data);
         client.emit('postReactSenha', data);
     }).catch(err => {
-      console.log('postSenha', err);
+      // console.log('postSenha', err);
       client.emit('postReactSenha', err);
     });
   
@@ -96,7 +96,7 @@ io.on("connection", (client) => {
 
   // Deleta um arquivo.
   client.on("deletaArquivo", (url, nomeArquivo) => {
-    console.log("DELETE", nomeArquivo);
+    // console.log("DELETE", nomeArquivo);
     ApiFirebaseAcess.deletaArquivo(url, nomeArquivo).then(res => {
       client.emit("deletaArquivoReact", res);
     }).catch(err => {
@@ -121,7 +121,7 @@ io.on("connection", (client) => {
 });
 
 http.listen(3001, () => {
-  console.log('listening on port 3001');
+  console.log('listening on port 3000');
 });
 
 // Função que verifica se a rota mudou, caso sim desisncreva.

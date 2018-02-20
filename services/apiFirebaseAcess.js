@@ -39,7 +39,7 @@ class ApiFirebaseAcess {
 
   // Retorna todos os links de uma url, filhos direto da url.
   static getRotaLinks(url) {
-    console.log('**** getRotaLinks ****', '\n\n');
+    // console.log('**** getRotaLinks ****', '\n\n');
     let linkPai = this.buildUrl(url);
     let links = [];
 
@@ -49,7 +49,7 @@ class ApiFirebaseAcess {
           Object.keys(snap.val()).forEach(el => {
             if (el.startsWith(linkPai)) {
               let listaLinks = el.split(linkPai);
-              console.log(linkPai, listaLinks, listaLinks.length);
+              // console.log(linkPai, listaLinks, listaLinks.length);
               if (listaLinks.length > 2)
                 ;
               else {
@@ -64,7 +64,7 @@ class ApiFirebaseAcess {
             resolve(links);
           else
             resolve(false);
-          console.log(links);
+          // console.log(links);
         }
 
       }, (errorObject) => {
@@ -73,7 +73,7 @@ class ApiFirebaseAcess {
 
     });
 
-    console.log('\n', '**** END getRotaLinks ****', '\n');
+    // console.log('\n', '**** END getRotaLinks ****', '\n');
   }
 
   // Retorna o texto que está na url passada.
