@@ -5,8 +5,22 @@ const http = require('http').createServer(app);
 // const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+// setup cors
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  if (req.method === 'OPTIONS') {
+      res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+      return res.status(200).json({});
+  }
+  next();
+});
+
 http.listen(3001, () => {
-  console.log('listening on port 3000');
+  console.log('listening on port 3001');
 });
 
 const allClients = [];
