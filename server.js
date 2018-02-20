@@ -74,9 +74,9 @@ io.on("connection", (client) => {
   client.on('postText', (url, msg) => {
     ApiFirebaseAcess.postRotaTexto(url, msg).then(data => {
       // console.log(data);
-      client.emit(data);
+      client.emit("postReactApp", data);
     }).catch(err => {
-      client.emit(false);
+      client.emit("postReactApp", false);
     });
   });
 
