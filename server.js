@@ -1,9 +1,13 @@
 import ApiFirebaseAcess from './services/apiFirebaseAcess';
 
 const app = require('express')();
-const http = require('http').Server(app);
+const http = require('http').createServer(app);
+// const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const fs = require('fs');
+
+http.listen(3001, () => {
+  console.log('listening on port 3000');
+});
 
 const allClients = [];
 let rotaAutal = null;
@@ -118,10 +122,6 @@ io.on("connection", (client) => {
     allClients.splice(i, 1);
     client.disconnect();
   });
-});
-
-http.listen(3001, () => {
-  console.log('listening on port 3000');
 });
 
 // Função que verifica se a rota mudou, caso sim desisncreva.
