@@ -3,9 +3,9 @@ import ApiFirebaseAcess from './services/apiFirebaseAcess';
 const app = require('express')();
 const http = require('http').createServer(app);
 // const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, { origins: '*:*'});
 
-// setup cors
+/* setup cors
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -17,10 +17,10 @@ app.use((req, res, next) => {
       return res.status(200).json({});
   }
   next();
-});
+});*/
 
-http.listen(3001, () => {
-  console.log('listening on port 3001');
+http.listen(3000, () => {
+  console.log('listening on port 3000');
 });
 
 const allClients = [];
